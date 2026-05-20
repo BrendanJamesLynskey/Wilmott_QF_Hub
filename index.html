@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paul Wilmott Introduces Quantitative Finance &mdash; Companion Series</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0a0a0a; --bg-card: #0d1117; --bg-code: #161b22;
+            --text-primary: #e6edf3; --text-secondary: #8b949e;
+            --accent: #fbbf24; --accent-dim: #fbbf2444; --accent-glow: #fbbf2433;
+            --accent-2: #f472b6; --accent-3: #a78bfa; --accent-4: #34d399;
+            --accent-5: #60a5fa;
+            --border: #21262d;
+            --font-display: 'Space Grotesk', sans-serif;
+            --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+            --font-body: 'Inter', sans-serif;
+            --max-width: 960px;
+        }
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+        body { background: var(--bg-primary); color: var(--text-primary);
+               font-family: var(--font-body); font-size: 17px; line-height: 1.7;
+               overflow-x: hidden; }
+        .hero { min-height: 60vh; display: flex; flex-direction: column;
+                justify-content: center; align-items: center;
+                padding: 4rem 1.5rem 3rem; text-align: center; position: relative; }
+        .hero::before { content: ''; position: absolute; top: 0; left: 50%;
+                        transform: translateX(-50%); width: 700px; height: 600px;
+                        background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
+                        pointer-events: none; z-index: 0; }
+        .hero > * { position: relative; z-index: 1; }
+        .series-label { font-family: var(--font-mono); font-size: 0.85rem;
+                        color: var(--accent); letter-spacing: 0.15em;
+                        text-transform: uppercase; margin-bottom: 1rem; }
+        .hero h1 { font-family: var(--font-display);
+                   font-size: clamp(2rem, 5vw, 3rem); font-weight: 700;
+                   color: var(--text-primary); line-height: 1.2; margin-bottom: 1rem; }
+        .hero h1 .accent { color: var(--accent); }
+        .hero .subtitle { font-size: 1.1rem; color: var(--text-secondary);
+                          max-width: 720px; margin-bottom: 1.5rem; }
+        .tags { display: flex; flex-wrap: wrap; gap: 0.5rem;
+                justify-content: center; margin-bottom: 1rem; }
+        .tag { font-family: var(--font-mono); font-size: 0.75rem;
+               padding: 0.25rem 0.75rem; border-radius: 999px;
+               border: 1px solid var(--accent); color: var(--accent);
+               background: var(--accent-dim); white-space: nowrap; }
+        .tag.r { border-color: var(--accent-2); color: var(--accent-2); background: rgba(244,114,182,0.10); }
+        .tag.p { border-color: var(--accent-3); color: var(--accent-3); background: rgba(167,139,250,0.10); }
+        .tag.g { border-color: var(--accent-4); color: var(--accent-4); background: rgba(52,211,153,0.10); }
+        .tag.b { border-color: var(--accent-5); color: var(--accent-5); background: rgba(96,165,250,0.10); }
+        .container { max-width: var(--max-width); margin: 0 auto; padding: 2rem 1.5rem; }
+        h2 { font-family: var(--font-display); font-size: 1.6rem; font-weight: 700;
+             color: var(--accent); margin: 1rem 0 1.25rem; }
+        h3 { font-family: var(--font-display); font-size: 1.1rem; font-weight: 600;
+             color: var(--text-primary); margin: 1.5rem 0 0.6rem;
+             padding-bottom: 0.3rem; border-bottom: 1px solid var(--border); }
+        .deck-list { display: flex; flex-direction: column; gap: 0.6rem;
+                     list-style: none; padding: 0; }
+        .deck-card { display: flex; gap: 1rem; padding: 1rem 1.25rem;
+                     background: var(--bg-card); border: 1px solid var(--border);
+                     border-left: 3px solid var(--accent); border-radius: 6px;
+                     transition: border-color 0.15s; }
+        .deck-card:hover { border-color: var(--accent); }
+        .deck-card.r { border-left-color: var(--accent-2); }
+        .deck-card.r:hover { border-color: var(--accent-2); }
+        .deck-card.p { border-left-color: var(--accent-3); }
+        .deck-card.p:hover { border-color: var(--accent-3); }
+        .deck-card.g { border-left-color: var(--accent-4); }
+        .deck-card.g:hover { border-color: var(--accent-4); }
+        .deck-card.b { border-left-color: var(--accent-5); }
+        .deck-card.b:hover { border-color: var(--accent-5); }
+        .deck-card .num { font-family: var(--font-mono); font-size: 0.85rem;
+                          color: var(--accent); min-width: 2.2rem;
+                          padding-top: 0.15rem; font-weight: 500; }
+        .deck-card.r .num { color: var(--accent-2); }
+        .deck-card.p .num { color: var(--accent-3); }
+        .deck-card.g .num { color: var(--accent-4); }
+        .deck-card.b .num { color: var(--accent-5); }
+        .deck-card .body { flex: 1; min-width: 0; }
+        .deck-card .deck-title { font-family: var(--font-display); font-size: 1.05rem;
+                                 font-weight: 600; color: var(--text-primary);
+                                 margin-bottom: 0.2rem; }
+        .deck-card a.deck-title { text-decoration: none; }
+        .deck-card a.deck-title:hover { color: var(--accent); }
+        .deck-card.r a.deck-title:hover { color: var(--accent-2); }
+        .deck-card.p a.deck-title:hover { color: var(--accent-3); }
+        .deck-card.g a.deck-title:hover { color: var(--accent-4); }
+        .deck-card.b a.deck-title:hover { color: var(--accent-5); }
+        .deck-card .desc { font-size: 0.92rem; color: var(--text-secondary); }
+        .deck-card .meta { font-family: var(--font-mono); font-size: 0.7rem;
+                           color: var(--text-secondary); margin-top: 0.4rem;
+                           display: flex; gap: 0.6rem; flex-wrap: wrap; }
+        .badge { display: inline-block; font-family: var(--font-mono);
+                 font-size: 0.65rem; padding: 0.1rem 0.5rem; border-radius: 999px;
+                 border: 1px solid var(--border); color: var(--text-secondary); }
+        .badge.live { border-color: var(--accent); color: var(--accent);
+                      background: var(--accent-dim); }
+        .callout { background: var(--bg-card); border-left: 3px solid var(--accent);
+                   border-radius: 0 8px 8px 0; padding: 1rem 1.25rem; margin: 1.5rem 0; }
+        .callout p { margin-bottom: 0; color: var(--text-secondary); }
+        .callout p strong { color: var(--text-primary); }
+        .callout p + p { margin-top: 0.6rem; }
+        .arc-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+                    gap: 0.75rem; margin: 1rem 0 1.5rem; }
+        .arc-cell { background: var(--bg-card); border: 1px solid var(--border);
+                    border-left: 3px solid var(--accent); border-radius: 6px;
+                    padding: 0.85rem 1rem; }
+        .arc-cell.r { border-left-color: var(--accent-2); }
+        .arc-cell.p { border-left-color: var(--accent-3); }
+        .arc-cell.g { border-left-color: var(--accent-4); }
+        .arc-cell.b { border-left-color: var(--accent-5); }
+        .arc-cell h4 { font-family: var(--font-display); font-size: 0.95rem;
+                       color: var(--accent); margin-bottom: 0.3rem; }
+        .arc-cell.r h4 { color: var(--accent-2); }
+        .arc-cell.p h4 { color: var(--accent-3); }
+        .arc-cell.g h4 { color: var(--accent-4); }
+        .arc-cell.b h4 { color: var(--accent-5); }
+        .arc-cell p { font-size: 0.85rem; color: var(--text-secondary); margin: 0; }
+        .book-card { background: var(--bg-card); border: 1px solid var(--border);
+                     border-radius: 8px; padding: 1.25rem 1.5rem; margin: 1rem 0 1.5rem;
+                     display: grid; grid-template-columns: 1fr; gap: 0.4rem; }
+        .book-card .label { font-family: var(--font-mono); font-size: 0.7rem;
+                            color: var(--accent); letter-spacing: 0.12em;
+                            text-transform: uppercase; }
+        .book-card .title { font-family: var(--font-display); font-size: 1.15rem;
+                            font-weight: 700; color: var(--text-primary); }
+        .book-card .authors { font-size: 0.95rem; color: var(--text-secondary);
+                              font-style: italic; }
+        .book-card .publisher { font-size: 0.85rem; color: var(--text-secondary); }
+        .footer { text-align: center; padding: 3rem 1.5rem;
+                  color: var(--text-secondary); font-size: 0.85rem;
+                  border-top: 1px solid var(--border); max-width: var(--max-width);
+                  margin: 3rem auto 0; }
+        .footer a { color: var(--accent); text-decoration: none; }
+        .footer a:hover { text-decoration: underline; }
+        @media (max-width: 640px) {
+            .hero h1 { font-size: 1.8rem; }
+            .deck-card { flex-direction: column; gap: 0.3rem; }
+        }
+    </style>
+</head>
+<body>
+<header class="hero">
+    <div class="series-label">Companion Series &middot; Paul Wilmott</div>
+    <h1>Paul Wilmott Introduces <span class="accent">Quantitative Finance</span></h1>
+    <p class="subtitle">A fourteen-deck interactive companion to Paul Wilmott's textbook &mdash; from the binomial model and Black&ndash;Scholes through exotic options, interest rate models, and Monte Carlo. Every key idea of the book turned into a draggable, scrubbable, animated picture in the browser.</p>
+    <div class="tags">
+        <span class="tag">Products &amp; Markets</span>
+        <span class="tag">Derivatives</span>
+        <span class="tag">Binomial Model</span>
+        <span class="tag g">Brownian Motion</span>
+        <span class="tag g">It&ocirc;'s Lemma</span>
+        <span class="tag p">Black&ndash;Scholes</span>
+        <span class="tag p">Greeks</span>
+        <span class="tag p">Volatility</span>
+        <span class="tag r">Exotic Options</span>
+        <span class="tag r">Multi-asset</span>
+        <span class="tag b">Fixed Income</span>
+        <span class="tag b">HJM / BGM</span>
+        <span class="tag">VaR / Risk</span>
+        <span class="tag g">Monte Carlo</span>
+    </div>
+</header>
+<main class="container">
+
+    <div class="book-card">
+        <span class="label">Book this companion follows</span>
+        <span class="title">Paul Wilmott Introduces Quantitative Finance (2nd Edition)</span>
+        <span class="authors">Paul Wilmott</span>
+        <span class="publisher">John Wiley &amp; Sons &middot; 2007 &middot; ISBN 978-0-470-31958-1</span>
+    </div>
+
+    <h2>Pedagogical arc</h2>
+    <div class="arc-grid">
+        <div class="arc-cell">
+            <h4>01 &ndash; 02 &nbsp;Markets &amp; Derivatives</h4>
+            <p>The instruments themselves &mdash; equities, FX, commodities, forwards, futures, options &mdash; and the no-arbitrage logic that makes them all related.</p>
+        </div>
+        <div class="arc-cell g">
+            <h4>03 &ndash; 05 &nbsp;The Random Walk</h4>
+            <p>From the discrete binomial tree to continuous Brownian motion and the basic stochastic calculus needed to price an option.</p>
+        </div>
+        <div class="arc-cell p">
+            <h4>06 &ndash; 08 &nbsp;The Black&ndash;Scholes World</h4>
+            <p>The PDE, the closed-form formul&aelig;, the Greeks, the implied-volatility surface, and the hedging strategies that follow.</p>
+        </div>
+        <div class="arc-cell r">
+            <h4>09 &ndash; 10 &nbsp;Exotic &amp; Multi-asset</h4>
+            <p>Barriers, Asians, lookbacks, compounds &mdash; and what happens when you write options on baskets, spreads or exchanges of two assets.</p>
+        </div>
+        <div class="arc-cell b">
+            <h4>11 &ndash; 12 &nbsp;Fixed Income</h4>
+            <p>Yield, duration, convexity, swaps, the yield curve &mdash; then short-rate models (Vasicek, CIR, HW) and the HJM / BGM forward-rate framework.</p>
+        </div>
+        <div class="arc-cell">
+            <h4>13 &ndash; 14 &nbsp;Risk &amp; Numerics</h4>
+            <p>Portfolio theory, CAPM, VaR, credit risk and CrashMetrics &mdash; then the finite-difference and Monte&nbsp;Carlo machinery that prices everything else.</p>
+        </div>
+    </div>
+
+    <h2>Presentations in this series</h2>
+
+    <h3>Markets and Derivatives</h3>
+    <ol class="deck-list">
+        <li class="deck-card"><div class="num">01</div><div class="body"><a class="deck-title" href="https://brendanjameslynskey.github.io/Wilmott_QF_01_Products_and_Markets/">Products and Markets &rarr;</a><div class="desc">Equities, dividends, splits, commodities, currencies, indices, the time value of money, fixed-income basics, forwards and futures, no-arbitrage. Interactive forward-pricing calculator.</div><div class="meta"><span class="badge live">live</span><span>ch. 1</span></div></div></li>
+        <li class="deck-card"><div class="num">02</div><div class="body"><a class="deck-title" href="https://brendanjameslynskey.github.io/Wilmott_QF_02_Derivatives/">Derivatives &rarr;</a><div class="desc">Calls, puts, payoff diagrams, put&ndash;call parity, binaries, bull/bear spreads, straddles, strangles, butterflies, condors, calendars. Interactive payoff-and-P&amp;L composer for option strategies.</div><div class="meta"><span class="badge live">live</span><span>ch. 2</span></div></div></li>
+    </ol>
+
+    <h3>The Random Walk</h3>
+    <ol class="deck-list" start="3">
+        <li class="deck-card g"><div class="num">03</div><div class="body"><a class="deck-title" href="https://brendanjameslynskey.github.io/Wilmott_QF_03_Binomial_Model/">The Binomial Model &rarr;</a><div class="desc">One-step and multi-step binomial trees, risk-neutral probability, delta hedging, the continuous-time limit. Interactive binomial-tree pricer for European and American options.</div><div class="meta"><span class="badge live">live</span><span>ch. 3</span></div></div></li>
+        <li class="deck-card g"><div class="num">04</div><div class="body"><a class="deck-title" href="https://brendanjameslynskey.github.io/Wilmott_QF_04_Random_Behavior_of_Assets/">The Random Behavior of Assets &rarr;</a><div class="desc">Examining returns, timescales, drift, volatility, the lognormal random walk, the Wiener process. Interactive GBM path simulator with histogram of terminal prices.</div><div class="meta"><span class="badge live">live</span><span>ch. 4</span></div></div></li>
+        <li class="deck-card g"><div class="num">05</div><div class="body"><a class="deck-title" href="https://brendanjameslynskey.github.io/Wilmott_QF_05_Stochastic_Calculus/">Elementary Stochastic Calculus &rarr;</a><div class="desc">The Markov and martingale properties, quadratic variation, Brownian motion, stochastic integration, SDEs, It&ocirc;'s lemma. Interactive Brownian-motion + quadratic-variation visualiser.</div><div class="meta"><span class="badge live">live</span><span>ch. 5</span></div></div></li>
+    </ol>
+
+    <h3>The Black&ndash;Scholes World</h3>
+    <ol class="deck-list" start="6">
+        <li class="deck-card p"><div class="num">06</div><div class="body"><a class="deck-title" href="https://brendanjameslynskey.github.io/Wilmott_QF_06_Black_Scholes_Model/">The Black&ndash;Scholes Model &rarr;</a><div class="desc">A very special portfolio, elimination of risk by delta hedging, no arbitrage, the Black&ndash;Scholes PDE, the assumptions, boundary &amp; final conditions, PDE solution methods. Interactive option-value surface viewer.</div><div class="meta"><span class="badge live">live</span><span>ch. 6&ndash;7</span></div></div></li>
+        <li class="deck-card p"><div class="num">07</div><div class="body"><a class="deck-title" href="https://brendanjameslynskey.github.io/Wilmott_QF_07_Greeks_and_Hedging/">The Black&ndash;Scholes Formul&aelig; and the Greeks &rarr;</a><div class="desc">Formul&aelig; for calls, puts, binaries; Delta, Gamma, Theta, Speed, Vega, Rho; implied volatility; the classification of hedging types. Interactive Greeks explorer with live Δ, Γ, Θ, V, ρ curves.</div><div class="meta"><span class="badge live">live</span><span>ch. 8, 10</span></div></div></li>
+        <li class="deck-card p"><div class="num">08</div><div class="body"><a class="deck-title" href="https://brendanjameslynskey.github.io/Wilmott_QF_08_Volatility/">Overview of Volatility Modeling &rarr;</a><div class="desc">Actual, historical, implied and forward volatility; GARCH; range-based estimators; skews and smiles; deterministic, stochastic and uncertain vol. Interactive implied-vol solver and smile/skew explorer.</div><div class="meta"><span class="badge live">live</span><span>ch. 9</span></div></div></li>
+    </ol>
+
+    <h3>Exotic and Multi-asset Options</h3>
+    <ol class="deck-list" start="9">
+        <li class="deck-card r"><div class="num">09</div><div class="body"><a class="deck-title" href="https://brendanjameslynskey.github.io/Wilmott_QF_09_Exotic_Options/">Exotic and Path-dependent Options &rarr;</a><div class="desc">The option taxonomy: time dependence, path dependence, dimensionality, order, embedded decisions. Barriers, Asians, lookbacks, compounds, Parisians. Interactive barrier-option Monte&nbsp;Carlo with knock-in / knock-out visualisation.</div><div class="meta"><span class="badge live">live</span><span>ch. 11, 13</span></div></div></li>
+        <li class="deck-card r"><div class="num">10</div><div class="body"><a class="deck-title" href="https://brendanjameslynskey.github.io/Wilmott_QF_10_Multi_asset_Options/">Multi-asset Options &rarr;</a><div class="desc">Multidimensional lognormal random walks, the correlation matrix, exchange options via similarity reduction, basket options, the realities of correlation. Interactive correlated GBM scatter and basket-payoff explorer.</div><div class="meta"><span class="badge live">live</span><span>ch. 12</span></div></div></li>
+    </ol>
+
+    <h3>Fixed Income</h3>
+    <ol class="deck-list" start="11">
+        <li class="deck-card b"><div class="num">11</div><div class="body"><a class="deck-title" href="https://brendanjameslynskey.github.io/Wilmott_QF_11_Fixed_Income/">Fixed-income Products, Yield and Swaps &rarr;</a><div class="desc">Zero-coupon and coupon bonds, the money-market account, FRAs, repos, STRIPS, day-count conventions, YTM, duration, convexity, bootstrapping forward rates, vanilla interest-rate swaps, the swap curve. Interactive bond-yield / duration calculator.</div><div class="meta"><span class="badge live">live</span><span>ch. 14&ndash;15</span></div></div></li>
+        <li class="deck-card b"><div class="num">12</div><div class="body"><a class="deck-title" href="https://brendanjameslynskey.github.io/Wilmott_QF_12_Interest_Rate_Models/">Interest Rate Models &rarr;</a><div class="desc">Stochastic short-rate models (Vasicek, CIR, Ho&ndash;Lee, Hull&ndash;White), the bond-pricing equation, the market price of risk, yield-curve fitting; the HJM forward-rate equation and the Brace&ndash;Gatarek&ndash;Musiela LIBOR market model. Interactive short-rate path simulator.</div><div class="meta"><span class="badge live">live</span><span>ch. 16&ndash;19</span></div></div></li>
+    </ol>
+
+    <h3>Risk and Numerics</h3>
+    <ol class="deck-list" start="13">
+        <li class="deck-card"><div class="num">13</div><div class="body"><a class="deck-title" href="https://brendanjameslynskey.github.io/Wilmott_QF_13_Portfolio_and_Risk/">Portfolio Management, VaR &amp; Risk &rarr;</a><div class="desc">The Kelly criterion, diversification, Modern Portfolio Theory and the efficient frontier, CAPM, Value at Risk for assets and derivatives, credit risk and the Merton model, copulas, CrashMetrics, and the great derivatives disasters. Interactive efficient-frontier + VaR explorer.</div><div class="meta"><span class="badge live">live</span><span>ch. 20&ndash;26</span></div></div></li>
+        <li class="deck-card g"><div class="num">14</div><div class="body"><a class="deck-title" href="https://brendanjameslynskey.github.io/Wilmott_QF_14_Numerical_Methods/">Numerical Methods &rarr;</a><div class="desc">The taxonomy of methods (finite differences, Monte&nbsp;Carlo, numerical integration), the explicit finite-difference scheme for Black&ndash;Scholes, Monte&nbsp;Carlo for European and American options (Longstaff&ndash;Schwartz), low-discrepancy sequences. Interactive Monte&nbsp;Carlo + finite-difference pricer.</div><div class="meta"><span class="badge live">live</span><span>ch. 27&ndash;30</span></div></div></li>
+    </ol>
+
+    <div class="callout">
+        <p><strong>Why this companion?</strong> Wilmott's book is famously written like a working quant talks &mdash; informal, fast-moving, packed with the actual reasoning a desk uses to build a model and hedge a book. That style is great to learn from but punishing to flip back to: the key picture you need next is sometimes scattered across three sub-chapters and an exercise. This series instead pins each of those pictures to a slide and makes the parameters draggable. Where the book says "now imagine the volatility is a smile of the form&hellip;" you'll have a slider and the smile.</p>
+        <p>Read the book and the deck side by side &mdash; chapter and section numbers in each deck correspond directly to Wilmott's second edition.</p>
+    </div>
+</main>
+
+<footer class="footer">
+    <p>Part of the <a href="https://github.com/BrendanJamesLynskey/Mathematics">Mathematics</a> hub &mdash; interactive presentation series in pure and applied mathematics.</p>
+    <p style="margin-top: 0.5rem;">Mathematically adjacent series: <a href="https://github.com/BrendanJamesLynskey/MML_Hub">Mathematics for Machine Learning</a> &middot; <a href="https://github.com/BrendanJamesLynskey/Vector_Spaces_Basics">Vector Spaces &mdash; The Basics</a> &middot; <a href="https://github.com/BrendanJamesLynskey/Differential_Equations_Explorer">Differential Equations Explorer</a></p>
+    <p style="margin-top: 0.8rem; font-size: 0.78rem;">Book by Paul Wilmott &mdash; John Wiley &amp; Sons, 2007. This companion is independent and unofficial; all credit for the underlying exposition belongs to the author.</p>
+</footer>
+</body>
+</html>
